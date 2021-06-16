@@ -93,6 +93,15 @@ input[type='text'], input[type='email'], input[type='password'], textarea, selec
 .twit-author { display: inline-block; font-weight: bold; margin-right: 10px; }
 .twit-follow {
     padding: 1px 5px;
+    background: #dc143c;
+    border: 1px solid silver;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 12px;
+    cursor: pointer;
+}
+.twit-unfollow {
+    padding: 1px 5px;
     background: #fff;
     border: 1px solid silver;
     border-radius: 5px;

@@ -3,8 +3,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const { Post, Hashtag } = require('../models');
-const { isLoggedIn } = require('./middlewares');
+const { Post, User, Hashtag } = require('../models');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
@@ -35,13 +35,17 @@ router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {
 });
 
 //게시글 따로
-router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
+const upload2 = multer();
+router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
     try {
+        console.log(req.user);
         const post = await Post.create({
             content: req.body.content,
             img: req.body.url,
             UserId: req.user.id,
         });
+
+        //정규표현식
         const hashtags = req.body.content.match(/#[^\s#]*/g);
         if (hashtags) {
             const result = await Promise.all(
@@ -59,5 +63,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
         next(error);
     }
 });
+
+
 
 module.exports = router;
